@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-mixPush" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>MixPush</name>
+    <js-module name="MixPushPlugin" src="www/MixPushPlugin.js">
+        <clobbers target="window.plugins.MixPushPlugin" />
+    </js-module>
+    <preference name="ANDROID_PACKAGE_NAME" />
+    <preference name="MI_PUSH_APP_IOS_KEY"/>
+    <preference name="MI_PUSH_APP_IOS_ID" />
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="MixPushPlugin">
+                <param name="android-package" value="com.dmc.push.MixPushPlugin" />
+            </feature>
+        </config-file>
+             <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.GET_TASKS" />
+            <uses-permission android:name="android.permission.VIBRATE"/>
+            <permission android:name="$PACKAGE_NAME.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
+            <!--这里com.xiaomi.mipushdemo改成app的包名-->
+            <uses-permission android:name="$PACKAGE_NAME.permission.MIPUSH_RECEIVE" />
+            <!--这里com.xiaomi.mipushdemo改成app的包名-->
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service
+                android:enabled="true"
+                android:process=":pushservice"
+                android:name="com.xiaomi.push.service.XMPushService"/>
+            <service
+                android:name="com.xiaomi.push.service.XMJobService"
+                android:enabled="true"
+                android:exported="false"
+                android:permission="android.permission.BIND_JOB_SERVICE"
+                android:process=":pushservice" />
+            <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
+            <service
+                android:enabled="true"
+                android:exported="true"
+                android:name="com.xiaomi.mipush.sdk.PushMessageHandler" />
+            <service android:enabled="true"
+                android:name="com.xiaomi.mipush.sdk.MessageHandleService" />
+            <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
+            <receiver
+                android:exported="true"
+                android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver" >
+                <intent-filter>
+                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                </intent-filter>
+            </receiver>
+            <receiver
+                android:exported="false"
+                android:process=":pushservice"
+                android:name="com.xiaomi.push.service.receivers.PingReceiver" >
+                <intent-filter>
+                    <action android:name="com.xiaomi.push.PING_TIMER" />
+                </intent-filter>
+            </receiver>
+            <receiver
+                android:exported="true"
+                android:name="com.dmc.push.XiaoMiReceiver">
+                <intent-filter>
+                    <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="com.xiaomi.mipush.ERROR" />
+                </intent-filter>
+            </receiver>
+
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/MixPushPlugin.java" target-dir="src/com/dmc/push" />
+        <source-file src="src/android/HuaWeiImpl.java" target-dir="src/com/dmc/push" />
+        <source-file src="src/android/IPush.java" target-dir="src/com/dmc/push" />
+        <source-file src="src/android/XiaoMiImpl.java" target-dir="src/com/dmc/push" />
+        <source-file src="src/android/XiaoMiReceiver.java" target-dir="src/com/dmc/push" />
+        <framework src="me.leolin:ShortcutBadger:1.1.17@aar" />
+        <source-file src="src/android/MiPush_SDK_Client_3_4_5.jar" target-dir="libs" />
+    </platform>
+
+
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="MixPushPlugin">
+                <param name="ios-package" value="MiPushPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file target="*-Info.plist" parent="MiSDKAppID">
+            <string>$MI_PUSH_APP_IOS_ID</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="MiSDKAppKey">
+            <string>$MI_PUSH_APP_IOS_KEY</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="MiSDKRun">
+            <string>Online</string>
+        </config-file>
+
+        <header-file src="src/ios/Plugins/MiPushPlugin.h" />
+        <source-file src="src/ios/Plugins/MiPushPlugin.m" />
+        <header-file src="src/ios/Plugins/AppDelegate+MiPush.h" />
+        <source-file src="src/ios/Plugins/AppDelegate+MiPush.m" />
+
+        <header-file src="src/ios/lib/MiPushSDK.h" />
+        <source-file src="src/ios/lib/libMiPushSDK.a" framework="true" />
+
+        <framework src="UserNotifications.framework" weak="true" />
+        <framework src="libresolv.dylib" weak="true" />
+        <framework src="libxml2.dylib" weak="true" />
+        <framework src="libz.dylib" weak="true" />
+        <framework src="SystemConfiguration.framework" weak="true" />
+        <framework src="MobileCoreServices.framework" weak="true" />
+        <framework src="CFNetwork.framework" weak="true" />
+        <framework src="CoreTelephony.framework" weak="true" />
+    </platform>
+</plugin>
