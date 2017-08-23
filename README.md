@@ -5,8 +5,6 @@ Cordova 推送，支持设置角标，事件回掉。
 如何使用?
 -------------------
 
-use npm:
-
 ```npm
  cordova plugin add cordova-plugin-mixpush --variable ANDROID_PACKAGE_NAME=你的安卓项目包名  --variable MI_PUSH_APP_IOS_ID=你IOS推送id --variable MI_PUSH_APP_IOS_KEY=你的IOS推送Key
 ```
