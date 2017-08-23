@@ -12,26 +12,27 @@ use npm:
 ```
 ## Example
 code:
-      
-      //此为代码为最简单用法，详细使用API，请参考www目录下的MixPushPlugin.js 注释
+     
+       //此为代码为最简单用法，详细使用API，请参考www目录下的MixPushPlugin.js 注释
        document.addEventListener('deviceready',push , false);
        function push(){
             var deviceBrand="xiaoMi";//目前只支持小米引擎
             window.plugins.MixPushPlugin.setPushEngine([deviceBrand]);
             var miId = '2882303761517608931';
             var miKey = '5711760892931';
+            //开始启动注册小米推送
             window.plugins.MixPushPlugin.registerPush([miId, miKey]);
 
             //registerPush事件
            document.addEventListener("MixPushPlugin.onRegisterPush", function onCallBack(data) {
                 if (data&&data.code == 200 ) {
                     console.log('注册成功：' + data.regId);
-                    setAlias("qq112");
+                    setAlias("qq112");//注册成功就设置Alias
                 }else{
                     console.log('注册失败：');
                 }
             }, false);
-
+            //设置Alias
             function setAlias(alias) {
                 window.plugins.MixPushPlugin.setAlias([alias]);
                 //onSetAliasPush事件
@@ -62,6 +63,8 @@ code:
              }, false);
 
        }
+
+
 
 
 
