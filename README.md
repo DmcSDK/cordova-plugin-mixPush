@@ -32,6 +32,8 @@ code:
                     console.log('注册失败：');
                 }
             }, false);
+            
+            
             //设置Alias
             function setAlias(alias) {
                 window.plugins.MixPushPlugin.setAlias([alias]);
