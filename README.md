@@ -12,7 +12,7 @@ use npm:
 ```
 ## Example
 code:
-     
+
        //此为代码为最简单用法，详细使用API，请参考www目录下的MixPushPlugin.js 注释
        document.addEventListener('deviceready',push , false);
        function push(){
@@ -32,8 +32,7 @@ code:
                     console.log('注册失败：');
                 }
             }, false);
-            
-            
+
             //设置Alias
             function setAlias(alias) {
                 window.plugins.MixPushPlugin.setAlias([alias]);
@@ -41,7 +40,7 @@ code:
                 document.addEventListener("MixPushPlugin.onSetAliasPush", function onCallBack(data)  {
                     if (data) {
                         data.code == 200 ? "" : setAlias(data.alias);
-                        console.log("MixPushPlugin.onSetAliasPush" + data.code);
+                        console.log("MixPushPlugin.onSetAliasPush" + data.alias);
                     }
                 }, false);
             }
@@ -65,6 +64,8 @@ code:
              }, false);
 
        }
+
+
 
 
 
