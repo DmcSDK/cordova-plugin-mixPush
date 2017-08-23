@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-mixpush.MixPushPlugin", function(require, exports, module) {
+
 
 //混合推送，目前支持小米，后续会有华为等推送，怎么加后无需任何代码改动就可兼容多种推送
 var MixPushPlugin = function() {}
@@ -253,6 +253,6 @@ if (!window.plugins.MixPushPlugin) {
 }
 
 
-module.exports = new MixPushPlugin()
+module.exports = new MixPushPlugin();
 
-});
+
