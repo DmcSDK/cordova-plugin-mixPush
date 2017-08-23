@@ -12,9 +12,9 @@ use npm:
 ```
 ## Example
 code:
-       //此为代码为最简单用法，详细使用API，请参考www目录下的MixPushPlugin.js 注释
+      
+      //此为代码为最简单用法，详细使用API，请参考www目录下的MixPushPlugin.js 注释
        document.addEventListener('deviceready',push , false);
-
        function push(){
             var deviceBrand="xiaoMi";//目前只支持小米引擎
             window.plugins.MixPushPlugin.setPushEngine([deviceBrand]);
