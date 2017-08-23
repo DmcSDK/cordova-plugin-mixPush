@@ -8,7 +8,7 @@ Cordova 推送，支持设置角标，事件回掉。
 use npm:
 
 ```npm
-  cordova plugin add cordova-plugin-mediapicker-dmcbig
+  cordova plugin add cordova-plugin-mixpush
 ```
 ## Example
 code:
