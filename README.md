@@ -1,5 +1,5 @@
 # cordova-plugin-mixPush
-android  mediaPicker support  selection of multiple image and video 
+Cordova 推送，支持设置角标。 此项目代码以混合推送为基础，目前支持小米推送，后续会有华为等（此做法在安卓端是业内常规做法，在华为手机启动华为推送，小米手机启动小米，这样达到体验极致），在不改动业务逻辑代码情况下完全兼容多种推送引擎
 
 如何使用?
 -------------------
