@@ -18,8 +18,8 @@ code:
        function push(){
             var deviceBrand="xiaoMi";//目前只支持小米引擎
             window.plugins.MixPushPlugin.setPushEngine([deviceBrand]);
-            var miId = '2882303******08931';//android id
-            var miKey = '57117**92931';//android key
+            var miId = '2882303******08931'; //android id
+            var miKey = '57117***2931'; //android key
             //开始启动注册小米推送
             window.plugins.MixPushPlugin.registerPush([miId, miKey]);
 
@@ -64,6 +64,7 @@ code:
              }, false);
 
        }
+
 
 
 
