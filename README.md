@@ -65,7 +65,8 @@ code:
 
 ## IOS注意点
 
-配置MiSDKRun ：https://dev.mi.com/doc/?p=2995#d5e70
+配置MiSDKRun ：https://dev.mi.com/doc/?p=2995#d5e70 （如果是测试证书测试环境请配置为Debug）
+
 XCODE推送开关：Xcode中的Capabilities中的Push Notifications打开
 
 
