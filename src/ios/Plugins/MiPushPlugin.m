@@ -197,20 +197,24 @@
 + (void)callbackWithType: (NSString *) type data:(NSDictionary *)data {
     NSString *json = nil;
     NSError *error = nil;
-
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithDictionary:data];
     @try {
         if(data[@"aps"]) {
-            NSDictionary *alertData =  [NSDictionary dictionaryWithObject:data[@"aps"][@"alert"] forKey:@"alert"];
+            NSDictionary *alertData =  data[@"aps"][@"alert"];
+            
             if(alertData) {
-                NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithDictionary:data];
-                [dictionary addEntriesFromDictionary:alertData];
-                data = dictionary;
+                if([alertData isKindOfClass:[NSString class]]){
+                    [dictionary setValue:alertData forKey:@"title"];
+                    [dictionary setValue:alertData forKey:@"body"];
+                }else{
+                    for(NSString *key in alertData){
+                        [dictionary setValue:[alertData objectForKey:key] forKey:key];
+                    }
+                }
             }
         }
         
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data
-                                                           options:NSJSONWritingPrettyPrinted
-                                                             error:&error];
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
         
         if (error != nil) {
             NSLog(@"NSDictionary JSONString error: %@", [error localizedDescription]);
@@ -218,13 +222,13 @@
             json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
     } @catch (NSException *exception) {
-        
+        NSLog(@"Exception: %@", exception);
     }
-
+    
     
     NSLog(@"消息：%@",json);
     NSString *js = [NSString stringWithFormat:@"window.plugins.MixPushPlugin.%@(%@)", type, json];
-      NSLog(@"消息JS：%@",js);
+    NSLog(@"消息JS：%@",js);
     if (SharedMiPushPlugin) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [SharedMiPushPlugin.commandDelegate evalJs:js];
