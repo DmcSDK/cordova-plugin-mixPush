@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-mixpush",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "cordova mipush xiaomi",
   "cordova": {
     "id": "cordova-plugin-mixPush",
