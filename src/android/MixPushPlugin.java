@@ -16,7 +16,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by lenovo on 2017/5/18.
+ * Created by dmcBig on 2017/5/18.
  */
 
 public class MixPushPlugin extends CordovaPlugin {
