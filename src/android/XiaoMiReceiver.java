@@ -35,7 +35,13 @@ public class XiaoMiReceiver  extends PushMessageReceiver {
      */
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage miPushMessage) {
-        super.onReceivePassThroughMessage(context, miPushMessage);
+        Log.e("TAG", "onReceivePassThroughMessage");
+        try {
+            ShortcutBadger.applyCount(context,Integer.parseInt(miPushMessage.getExtra().get("unrecv")));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        MixPushPlugin.onNotificationMessageArrivedCallBack(msgToJson(miPushMessage), miPushMessage.getExtra());        
     }
 
     /**
