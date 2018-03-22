@@ -114,9 +114,9 @@
         <source-file src="src/ios/lib/libMiPushSDK.a" framework="true" />
 
         <framework src="UserNotifications.framework" weak="true" />
-        <framework src="libresolv.dylib" weak="true" />
-        <framework src="libxml2.dylib" weak="true" />
-        <framework src="libz.dylib" weak="true" />
+        <framework src="libresolv.tbd" weak="true" />
+        <framework src="libxml2.tbd" weak="true" />
+        <framework src="libz.tbd" weak="true" />
         <framework src="SystemConfiguration.framework" weak="true" />
         <framework src="MobileCoreServices.framework" weak="true" />
         <framework src="CFNetwork.framework" weak="true" />
