@@ -1,6 +1,4 @@
-//
-//  Created by wenin819 on 17-03-24.
-//
+
 
 #import "MiPushPlugin.h"
 #import "MiPushSDK.h"
