@@ -11,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -40,80 +43,133 @@ public class MixPushPlugin extends CordovaPlugin {
         }
     }
 
+    enum ActionType {
+        SETPUSHENGINE("setPushEngine"),
+        REGISTERPUSH("registerPush"),
+        EXITPUSH("exitPush"),
+        SETACCOUNT("setAccount"),
+        UNSETACCOUNT("unsetAccount"),
+        GETREGID("getRegId"),
+        SETALIAS("setAlias"),
+        UNSETALIAS("unsetAlias"),
+        SUBSCRIBE("subscribe"),
+        UNSUBSCRIBE("unsubscribe"),
+        PAUSEPUSH("pausePush"),
+        RESUMEPUSH("resumePush"),
+        DISABLEPUSH("disablePush"),
+        ENABLEPUSH("enablePush"),
+        CLEARNOTIFICATION("clearNotification"),
+        CLEARNOTIFICATIONBYID("clearNotificationById"),
+        BADGERAPPLYCOUNT("badgerApplyCount"),
+        BADGERREMOVECOUNT("badgerRemoveCount"),
+        BADGERMINUSCOUNT("badgerMinusCount");
+        ActionType(String value) {
+            this.name = value;
+        }
+
+        private String name;
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        private static Map<String, ActionType> map;
+
+        static {
+            map = new HashMap<String, ActionType>();
+            for (ActionType actionType : ActionType.values()) {
+                map.put(actionType.getName(), actionType);
+            }
+        }
+
+        public static ActionType findByValue(String value) {
+            return map.get(value);
+        }
+    }
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        switch (action){
-            case "setPushEngine":
+        ActionType type = ActionType.findByValue(action);
+        if (type == null) {
+            Log.w(TAG, "invalid param, action: " + action);
+            return false;
+        }
+
+        switch (type) {
+            case SETPUSHENGINE:
                 setPushEngine(args.getString(0));
                 return true;
-            case "registerPush":
-                pushEngine.registerPush(callbackContext,cordova.getActivity(),args);
+            case REGISTERPUSH:
+                pushEngine.registerPush(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "exitPush":
-                pushEngine.exitPush(callbackContext,cordova.getActivity(),args);
+            case EXITPUSH:
+                pushEngine.exitPush(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "setAccount":
-                pushEngine.setAccount(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case SETACCOUNT:
+                pushEngine.setAccount(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "unsetAccount":
-                pushEngine.unsetAccount(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case UNSETACCOUNT:
+                pushEngine.unsetAccount(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "getRegId":
-                pushEngine.getRegId(callbackContext,cordova.getActivity(),args);
+            case GETREGID:
+                pushEngine.getRegId(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "setAlias":
-                pushEngine.setAlias(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case SETALIAS:
+                pushEngine.setAlias(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "unsetAlias":
-                pushEngine.unsetAlias(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case UNSETALIAS:
+                pushEngine.unsetAlias(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "subscribe":
-                pushEngine.subscribe(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case SUBSCRIBE:
+                pushEngine.subscribe(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "unsubscribe":
-                pushEngine.unsubscribe(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case UNSUBSCRIBE:
+                pushEngine.unsubscribe(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "pausePush":
-                pushEngine.pausePush(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case PAUSEPUSH:
+                pushEngine.pausePush(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "resumePush":
-                pushEngine.resumePush(callbackContext,cordova.getActivity(),args.getString(0),args);
+            case RESUMEPUSH:
+                pushEngine.resumePush(callbackContext, cordova.getActivity(), args.getString(0), args);
                 return true;
-            case "disablePush":
-                pushEngine.disablePush(callbackContext,cordova.getActivity(),args);
+            case DISABLEPUSH:
+                pushEngine.disablePush(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "enablePush":
-                pushEngine.enablePush(callbackContext,cordova.getActivity(),args);
+            case ENABLEPUSH:
+                pushEngine.enablePush(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "clearNotification":
-                pushEngine.clearNotification(callbackContext,cordova.getActivity(),args);
+            case CLEARNOTIFICATION:
+                pushEngine.clearNotification(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "clearNotificationById":
-                pushEngine.clearNotificationById(callbackContext,cordova.getActivity(),args);
+            case CLEARNOTIFICATIONBYID:
+                pushEngine.clearNotificationById(callbackContext, cordova.getActivity(), args);
                 return true;
-            case "badgerApplyCount":
+            case BADGERAPPLYCOUNT:
                 try {
                     ShortcutBadger.applyCount(cordova.getActivity(), args.getInt(0));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return true;
-            case "badgerRemoveCount":
+            case BADGERREMOVECOUNT:
                 try {
                     ShortcutBadger.removeCount(cordova.getActivity());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return true;
-            case "badgerMinusCount":
+            case BADGERMINUSCOUNT:
                 try {
                     minusBadgerToSp(args.getInt(0));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return true;
-                default:
-                    break;
+            default:
+                break;
         }
         return false;
     }
