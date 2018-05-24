@@ -75,16 +75,22 @@ code:
 
 XCODE推送开关：Xcode中的Capabilities中的Push Notifications打开
 
-## Android
+## 当APP处于后台后如何设置角标  
 
 当APP被用户按了home键处在后台时，JS可能是停止执行的，那来了消息如何设置角标，只需要让后端大兄弟在安卓推送时加上unrecv参数代表角标数即可
+android
 ```
 new Message.Builder()
 .extra("unrecv", "" + unrecv) //unrecv int类型的值
 
 ```
 
+ios
+```
+new Message.IOSBuilder()
+.badge(unrecv)//unrecv int类型的值
 
+```
 
 
 
