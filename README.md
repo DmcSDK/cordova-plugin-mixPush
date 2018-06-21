@@ -4,8 +4,6 @@ Cordova 推送，支持设置角标，事件回调。
 
 注意：此插件的依赖的组件来自mvn仓库，所以需要翻墙。
 
-JAVA SDK 需要1.7版本低于1.7会编译switch语法错误（环境变量是JDK1.7不一定build时候是1.7请查看build.gradle文件下的sourceCompatibility targetCompatibility）。
-
 此项目运用于我公司商业项目上，功能都没问题，我不太会写文档，如有技术问题可邮件询问：qq3451927565
 
 如何使用?
