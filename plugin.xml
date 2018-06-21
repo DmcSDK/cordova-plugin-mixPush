@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-mixPush" version="1.0.6" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-mixPush" version="1.0.7" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>MixPush</name>
     <js-module name="MixPushPlugin" src="www/MixPushPlugin.js">
         <clobbers target="window.plugins.MixPushPlugin" />
@@ -14,7 +14,7 @@
                 <param name="android-package" value="com.dmc.push.MixPushPlugin" />
             </feature>
         </config-file>
-        <edit-config file="app/src/main/AndroidManifest.xml" parent="/manifest" mode="merge">
+             <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -25,8 +25,8 @@
             <!--这里com.xiaomi.mipushdemo改成app的包名-->
             <uses-permission android:name="$PACKAGE_NAME.permission.MIPUSH_RECEIVE" />
             <!--这里com.xiaomi.mipushdemo改成app的包名-->
-        </edit-config>
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application" mode="merge">
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service
                 android:enabled="true"
                 android:process=":pushservice"
@@ -75,7 +75,8 @@
                 </intent-filter>
             </receiver>
 
-        </edit-config>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/MixPushPlugin.java" target-dir="src/com/dmc/push" />
         <source-file src="src/android/HuaWeiImpl.java" target-dir="src/com/dmc/push" />
         <source-file src="src/android/IPush.java" target-dir="src/com/dmc/push" />
