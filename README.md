@@ -16,6 +16,12 @@ JAVA SDK 需要1.7版本低于1.7会编译switch语法错误（环境变量是JD
 ```npm
  cordova plugin add cordova-plugin-mixpush --variable ANDROID_PACKAGE_NAME=你的安卓项目包名  --variable MI_PUSH_APP_IOS_ID=你IOS推送id --variable MI_PUSH_APP_IOS_KEY=你的IOS推送Key
 ```
+
+或者使用最新的版本
+```npm
+ cordova plugin add https://github.com/dmcBig/cordova-plugin-mixPush.git --variable ANDROID_PACKAGE_NAME=你的安卓项目包名  --variable MI_PUSH_APP_IOS_ID=你IOS推送id --variable MI_PUSH_APP_IOS_KEY=你的IOS推送Key
+```
+
 ## Example
 code:
 
@@ -70,6 +76,55 @@ code:
              }, false);
 
        }
+
+
+## Android 注意点
+
+如果你采用的是最新的cordova8.0版本，那么当执行 cordova platform add android时候，会默认采用cordova android 7.0 或者更高的版本，由于7.0以上的版本中，Android的目录发生了改变。[参考网址](https://cordova.apache.org/announcements/2017/12/04/cordova-android-7.0.0.html)
+
+cordova android 7.0 运行可能会报错如下：
+```
+cp: copyFileSync: could not write to dest file (code=ENOENT):/home/ice/WebstormProjects/MyCordova4/platforms/android/res/xml/config.xml
+
+Parsing /home/ice/WebstormProjects/MyCordova4/platforms/android/res/xml/config.xml failed
+```
+
+如果想要兼容，可以采用hook的方式，需要两步：
+
+1、新建 hooks/patch-android-studio-check.js 文件,内容如下
+
+```
+/**
+* This hook overrides a function check at runtime. Currently, cordova-android 7+ incorrectly detects that we are using
+* an eclipse style project. This causes a lot of plugins to fail at install time due to paths actually being setup
+* for an Android Studio project. Some plugins choose to install things into 'platforms/android/libs' which makes
+* this original function assume it is an ecplise project.
+*/
+module.exports = function (context) {
+    if (context.opts.cordova.platforms.indexOf('android') < 0) {
+        return;
+    }
+
+    const path = context.requireCordovaModule('path');
+    const androidStudioPath = path.join(context.opts.projectRoot, 'platforms/android/cordova/lib/AndroidStudio');
+    const androidStudio = context.requireCordovaModule(androidStudioPath);
+    androidStudio.isAndroidStudioProject = function () { return true; };
+};
+```
+
+2、在config.xml添加如下代码
+
+```
+<platform name="android">
+    <hook src="hooks/patch-android-studio-check.js" type="before_plugin_install" />
+    <hook src="hooks/patch-android-studio-check.js" type="before_plugin_add" />
+    <hook src="hooks/patch-android-studio-check.js" type="before_build" />
+    <hook src="hooks/patch-android-studio-check.js" type="before_run" />
+    <hook src="hooks/patch-android-studio-check.js" type="before_plugin_rm" />
+</platform>
+```
+此时重新运行 cordova run android 即可正常运行。
+
 
 ## IOS注意点
 
