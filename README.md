@@ -1,4 +1,4 @@
-# cordova-plugin-mixPush
+# cordova-plugin-mixPush （近期不再维护请谨慎使用）
 Cordova 推送，支持设置角标，事件回调。
 此项目代码设计以混合推送为基础，兼容多种推送引擎。
 
